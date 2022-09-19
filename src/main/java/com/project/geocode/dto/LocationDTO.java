@@ -3,15 +3,17 @@ package com.project.geocode.dto;
 public class LocationDTO {
 	private Double latitude;
 	private Double longitude;
+	private String city ;
 
 	public LocationDTO() {
 
 	}
 
-	public LocationDTO(Double latitude, Double longitude) {
+	public LocationDTO(Double latitude, Double longitude, String city) {
 		super();
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.city = city ;
 	}
 
 	@Override
@@ -34,5 +36,15 @@ public class LocationDTO {
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
+	
 
 }

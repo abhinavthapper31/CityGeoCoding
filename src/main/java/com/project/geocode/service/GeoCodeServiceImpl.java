@@ -1,10 +1,13 @@
 package com.project.geocode.service;
 
 import java.io.BufferedReader;
-import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,15 +19,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.maps.GeoApiContext;
-import com.google.maps.GeocodingApi;
 import com.google.maps.errors.ApiException;
-import com.google.maps.model.GeocodingResult;
 import com.project.geocode.dto.LocationDTO;
 import com.project.geocode.exception.InputStreamException;
 import com.project.geocode.exception.NoCityFoundException;
+import com.project.geocode.provider.GeoCodesByGoogleAPI;
 
 @Service
 public class GeoCodeServiceImpl implements GeoCodeService {
@@ -42,6 +41,7 @@ public class GeoCodeServiceImpl implements GeoCodeService {
 				throw new NoCityFoundException("No cities found in the input file");
 			}
 			List<LocationDTO> latLongPairs = generateLatitudeLongitudePairList(cities);
+			
 			writeOutputToFile(latLongPairs);
 			return new ResponseEntity<>("Generation Success", HttpStatus.OK);
 
@@ -59,11 +59,22 @@ public class GeoCodeServiceImpl implements GeoCodeService {
 	}
 
 	private void writeOutputToFile(List<LocationDTO> latLongPairs) throws IOException {
-		FileWriter writer = new FileWriter("output.txt");
-		for (LocationDTO location : latLongPairs) {
-			writer.write(location.getLatitude().toString() + "," + location.getLongitude().toString());
+		File fout = new File("output.txt");
+		FileOutputStream fos = new FileOutputStream(fout);
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+		try {
+			for (LocationDTO location : latLongPairs) {
+				bw.write(location.getLatitude().toString() + "," + location.getLongitude().toString());
+				bw.newLine();
+
+			}
+		} catch (Exception ex) {
+			LOGGER.error("Exception while writing to file", ex);
+		} finally {
+			bw.close();
+
 		}
-		writer.close();
+
 	}
 
 	private List<String> getCityList() throws IOException, InputStreamException {
