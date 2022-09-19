@@ -6,10 +6,7 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
@@ -19,7 +16,6 @@ import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
 import com.project.geocode.cache.CustomInMemoryCache;
 import com.project.geocode.dto.LocationDTO;
-import com.project.geocode.utils.ReadProperty;
 
 @Component
 @PropertySource("classpath:application.properties")

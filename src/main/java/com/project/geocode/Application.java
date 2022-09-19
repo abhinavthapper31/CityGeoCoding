@@ -23,9 +23,7 @@ public class Application {
 		 * applicationContext.getBean(GeoCodeServiceImpl.class);
 		 * service.getGeocodeData();
 		 */
-		GeoCodeServiceImpl service =
-				 applicationContext.getBean(GeoCodeServiceImpl.class);
-				  service.getGeocodeData();
+
 	}
 
 }
