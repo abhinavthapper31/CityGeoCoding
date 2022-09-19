@@ -1,4 +1,4 @@
-package com.project.geocode.service;
+package com.project.geocode.provider;
 
 import java.util.List;
 
